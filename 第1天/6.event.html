@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  </head>
+  <body>
+
+    <div id="app">
+      <!-- v-on === @ -->
+      <!--<button v-on:click="fn">click me</button>-->
+      <!-- 如果不传递参数 则不写括号会自动插入事件源，如果写括号则需手动传入$event属性 -->
+      <button @click="fn($event, 'world')">click me</button>
+    </div>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+      let vm = new Vue({ //根实例
+        el: '#app',
+        data: { //存放数据
+          hello: 'hello'
+        },
+        methods: { //存放方法
+          fn(e, word) {
+            console.log(this.hello, word);
+            console.log(e);
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

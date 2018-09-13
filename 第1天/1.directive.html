@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  </head>
+  <body>
+
+    <div id="app">
+      <!-- v-text === {{}} 防止{{}}在页面上闪现 -->
+      <span v-text="msg"></span><br/>
+
+      <!-- v-model会msg的值赋给输入框，输入框的值改变了会影响数据的变化 -->
+      <input type="text" v-model="msg">
+
+      <!-- v-once 只绑定一次 当数据再次发生变化时 也不会导致页面刷新 -->
+      <div v-once>{{'v-once: ' + msg}}</div>
+
+      <!-- 把html字符串当做html渲染 -->
+      <div v-html="h1"></div>
+    </div>
+
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+      let vm = new Vue({
+        el: '#app',
+        data: {
+          msg: 'hello',
+          h1: '<h1>world</h1>'
+        }
+      });
+    </script>
+  </body>
+</html>

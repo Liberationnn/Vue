@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+  </head>
+  <body>
+
+    <div class="container col-sm-6 col-sm-offset-3 col-xs-8 col-xs-offset-2" id="app" style="margin-top: 20px;">
+      <input class="form-control" type="text" autofocus v-model="val" @keydown.enter="add()">
+      <ul class="list-group">
+        <li class="list-group-item" v-for="(todo,index) in todos">
+          {{todo}}
+          <button class="btn btn-danger btn-xs pull-right" @click="remove(index)">x</button>
+        </li>
+      </ul>
+    </div>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+      let vm = new Vue({
+        el: '#app',
+        data: {
+          val: '',
+          todos: []
+        },
+        methods: {
+          add() {
+            if (this.val.trim()) {
+              this.todos.push(this.val);
+              this.val = '';
+            }
+          },
+          remove(index) {
+            this.todos.splice(index, 1);
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
