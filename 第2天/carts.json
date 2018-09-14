@@ -1,0 +1,26 @@
+[
+  {
+    "isSelected": true,
+    "productImg": "https://img10.360buyimg.com/cms/s80x80_jfs/t21844/48/2471523930/271763/2975d80c/5b57dc75Na2685af9.jpg",
+    "productName": "Apple MacBook Air 13.3英寸笔记本电脑",
+    "productInfo": "颜色：15.6英寸i5-8300H GTX1050Ti 4G",
+    "productPrice": 6388,
+    "productCount": 2
+  },
+  {
+    "isSelected": true,
+    "productImg": "https://img10.360buyimg.com/cms/s80x80_jfs/t21223/242/2442139144/311594/586fc86d/5b556fdfNafe7f171.jpg",
+    "productName": "联想(Lenovo)拯救者Y7000英特尔八代酷睿",
+    "productInfo": "颜色：Y7000 【GTX1060 i7 高色域】",
+    "productPrice": 8499,
+    "productCount": 1
+  },
+  {
+    "isSelected": true,
+    "productImg": "https://img10.360buyimg.com/cms/s80x80_jfs/t27412/80/245186526/350111/db1dd116/5b8c99a6Nedb7a3a1.jpg",
+    "productName": "戴尔DELL游匣G3烈焰版 15.6英寸游戏笔记本电脑",
+    "productInfo": "颜色：银色",
+    "productPrice": 5999,
+    "productCount": 1
+  }
+]

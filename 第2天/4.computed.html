@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+  </head>
+  <body>
+
+    <div class="container" id="app">
+      <table class="table table-striped table-bordered">
+        <caption class="h4 text-center text-warning">购物车</caption>
+        <tr>
+          <th><input type="checkbox" v-model="isSelectedAll"> 全选</th>
+          <th>商品</th>
+          <th class="text-right">单价</th>
+          <th class="text-center">数量</th>
+          <th class="text-right">小计</th>
+          <th class="text-center">操作</th>
+        </tr>
+        <tr v-for="(product,index) in products">
+          <td><input type="checkbox" v-model="product.isSelected"></td>
+          <td class="row">
+            <img class="col-xs-2" :src="product.productImg" :title="product.productName">
+            <div class="col-xs-7">{{product.productName}}</div>
+            <div class="col-xs-3 h6">{{product.productInfo}}</div>
+          </td>
+          <td class="text-right">{{product.productPrice | price}}</td>
+          <td class="text-center">
+            <input type="number" min="1" v-model.number="product.productCount">
+          </td>
+          <td class="text-right">{{product.productPrice*product.productCount | price}}</td>
+          <td class="text-center">
+            <button class="btn btn-danger btn-xs" @click="remove(product)">删除</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="text-right" colspan="6">总价: {{totalPrice | price}}</td>
+        </tr>
+      </table>
+    </div>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/axios/dist/axios.js"></script>
+    <script>
+      let vm = new Vue({
+        el: '#app',
+        created() {
+          this.getDate();
+        },
+        data: {
+          products: []
+        },
+        methods: {
+          getDate() {
+            axios.get('./carts.json').then((res) => {
+              this.products = res.data;
+            }, (err) => {
+              console.log(err);
+            });
+          },
+          remove(product) {
+            this.products = this.products.filter((item) => item !== product);
+          }
+        },
+        filters: {
+          price(val) {
+            return '￥' + val.toFixed(2);
+          }
+        },
+        // 当给全选赋值时，要影响其他商品的选中状态，当页面刷新时，获取全选值，是根据下面的checkbox计算出来的结果给全选赋值
+        computed: {
+          isSelectedAll: {
+            // 当products值变化时会重新计算
+            get() { //get和set的this指向实例，默认v-model会获取isSelectedAll的值，所以会调用get方法
+              return this.products.every((item) => item.isSelected);
+            },
+            set(val) {
+              this.products.forEach((item) => item.isSelected = val);
+            }
+          },
+          totalPrice() { //如果计算属性写成函数，默认调用的就是get方法
+            return this.products.reduce((prev, cur) => {
+              return cur.isSelected ? prev + cur.productPrice * cur.productCount : prev;
+            }, 0);
+          }
+          // totalPrice: { //totalPrice的结果会被缓存，如果依赖的数据没有变化就不会重新执行
+          //   get() {
+          //     return this.products.reduce((prev, cur) => {
+          //       return cur.isSelected ? prev + cur.productPrice * cur.productCount : prev;
+          //     }, 0);
+          //   }
+          // }
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+      span {
+        display: inline-block;
+        width: 100px;
+        height: 100px;
+        background-color: red;
+      }
+      .v-enter {opacity: 0}
+      .v-enter-active {transition: 1s;}
+      .v-leave-active {opacity: 0; transition: 1s;}
+    </style>
+  </head>
+  <body>
+
+    <div id="app">
+      <!-- v-if v-show if操作的是dom show操作的是样式-->
+      <!-- 如果频繁的切换dom建议使用v-show,反之使用v-if -->
+      <button @click="vShow=!vShow">click me</button>
+      <transition>
+        <span v-show="vShow">v-show</span>
+      </transition>
+      <!-- 如果v-if不通过内部指令就不会执行了 -->
+      <!--<button @click="vIf=!vIf">click me</button>-->
+      <!--<span v-if="vIf">v-if</span>-->
+    </div>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+      let vm = new Vue({
+        el: '#app',
+        data: {
+          vShow: true,
+          vIf: true
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../node_modules/animate.css/animate.css">
+    <!--<style>-->
+    <!--span {-->
+    <!--display: inline-block;-->
+    <!--width: 100px;-->
+    <!--height: 100px;-->
+    <!--background-color: red;-->
+    <!--}-->
+    <!--</style>-->
+  </head>
+  <body>
+
+    <div id="app">
+      <button @click="flag=!flag">click me</button>
+      <input type="text" v-model="query">
+      <transition-group enter-active-class="animated bounceInUp" leave-active-class="animated bounceOutDown">
+        <!-- v-for默认会复用原有元素,如果加了key，而且key不同就认为是不同元素 -->
+        <div v-for="(a,index) in newArr" :key="Math.random()">{{a}}</div>
+      </transition-group>
+    </div>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+      let vm = new Vue({
+        el: '#app',
+        data: {
+          flag: true,
+          arr: [1, 2, 3, 4, 5, 11, 22, 33, 42, 51],
+          query: ''
+        },
+        computed: {
+          newArr() {
+            return this.arr.filter((item) => {
+              return item.toString().indexOf(this.query) !== -1;
+            });
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

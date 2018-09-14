@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  </head>
+  <body>
+
+    <div id="app">
+      <!-- 如果只有一个复选框，会把此值转换成boolean类型，值为true代表选中 -->
+      <input type="checkbox" v-model="a">{{a}}<br/>
+      <!-- 如果有多个复选框，要增加value属性并且数据类型为数组 -->
+      <input type="checkbox" v-model="b" value="游泳">游泳
+      <input type="checkbox" v-model="b" value="爬山">爬山
+      <input type="checkbox" v-model="b" value="睡觉">睡觉
+      {{b}}
+    </div>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+      let vm = new Vue({
+        el: '#app',
+        data: {
+          a: false,
+          b: []
+        }
+      });
+    </script>
+  </body>
+</html>
