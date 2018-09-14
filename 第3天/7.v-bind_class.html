@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+      .a {background-color: yellow;}
+      .b {font-size: 30px;}
+      .c {color: red;}
+    </style>
+  </head>
+  <body>
+
+    <div id="app">
+      <!-- :class绑定的样式和class绑定的不冲突 -->
+      <!-- 1) {className: isActive} -->
+      <button @click="flag=!flag">click me</button>
+      <div class="a" :class="{b:flag, c:!flag}">嘤嘤嘤</div>
+
+      <!-- 2) [activeClassName1, activeClassName2] -->
+      <button @click="activeClass=activeClass.length>0?[]:['b','c']">click me</button>
+      <div class="a" :class="activeClass">嘤嘤嘤</div>
+
+      <div v-for="(num,index) in 10" :class="{a:index%2}">{{num}}</div>
+    </div>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+      // class="a b c"  style="background:'color'"
+      // 第一种方式是对象，第二种方式是数组
+      let vm = new Vue({
+        el: '#app',
+        data: {
+          flag: true,
+          activeClass: ['b', 'c']
+        }
+      });
+    </script>
+  </body>
+</html>

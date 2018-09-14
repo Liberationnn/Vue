@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  </head>
+  <body>
+
+    <div id="app">
+      <!-- template标签是vue提供给我们用来包裹元素用的，不支持v-show -->
+      <button @click="flag=!flag">click me</button>
+      <template v-if="flag">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+      </template>
+      <div v-else>嘤嘤嘤</div>
+
+      <button @click="isReg=!isReg">click me</button>
+      <!-- 默认情况下在切换dom时，相同的结构会被复用，如果不需要复用，需要加key属性 -->
+      <template v-if="isReg">
+        <label>注册</label>
+        <input type="text" value="注册的输入框" key="1">
+      </template>
+      <template v-else>
+        <label>登录</label>
+        <input type="text" value="登录的输入框" key="2">
+      </template>
+    </div>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+      let vm = new Vue({
+        el: '#app',
+        data: {
+          flag: true,
+          isReg: true
+        }
+      });
+    </script>
+  </body>
+</html>

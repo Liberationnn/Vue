@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+    <style>
+      .del {
+        text-decoration: line-through;
+        color: #9c9c9c;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div id="app">
+      <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">TodoList</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <p class="text-danger">你有 {{needTodoNum}} 件事要完成</p>
+                <input class="form-control" type="text" placeholder="请输入待办事项" autofocus v-model="title"
+                       @keyDown.enter="addTodo()">
+              </div>
+              <div class="panel-body">
+                <ul class="list-group">
+                  <li class="list-group-item" v-for="todo in showTodos">
+                    <div v-show="curTodo!==todo">
+                      <input style="vertical-align:middle;margin-top:0;" type="checkbox" v-model="todo.isSelected">
+                      <span :class="{del:todo.isSelected}" @dblclick="rememberTodo(todo)">{{todo.title}}</span>
+                      <button class="btn btn-xs btn-danger pull-right" @click="removeTodo(todo)">x</button>
+                    </div>
+                    <input class="form-control" type="text" v-model="todo.title" @keyDown.enter="cancel()"
+                           @blur="cancel()" v-show="curTodo===todo" v-focus="curTodo===todo">
+                  </li>
+                </ul>
+              </div>
+              <div class="panel-footer">
+                <ul class="nav nav-pills">
+                  <li role="presentation" :class="{active:hash==='all'}"><a href="#/all">全部</a></li>
+                  <li role="presentation" :class="{active:hash==='finish'}"><a href="#/finish">已完成</a></li>
+                  <li role="presentation" :class="{active:hash==='unfinish'}"><a href="#/unfinish">未完成</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/axios/dist/axios.js"></script>
+    <script src="./todo.js"></script>
+  </body>
+</html>

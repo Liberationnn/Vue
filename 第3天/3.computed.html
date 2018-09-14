@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  </head>
+  <body>
+
+    <div id="app">
+      <input type="text" v-model="a">
+      {{msg}}
+    </div>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+      let vm = new Vue({
+        el: '#app',
+        data: {
+          a: ''
+        },
+        computed: {
+          msg() {
+            return this.a.length < 3 ? '长度过小' : this.a.length > 6 ? '长度过长' : '';
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

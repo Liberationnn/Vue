@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  </head>
+  <body>
+
+    <div id="app1">{{'hello' | my}}</div>
+    <div id="app2">{{'hello' | my}}</div>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+      // 全局过滤器，要放在代码顶部
+      Vue.filter('my', (data) => 'sr: ' + data);
+
+      new Vue({
+        el: '#app1',
+        data: {},
+      });
+
+      new Vue({
+        el: '#app2',
+        data: {}
+      });
+    </script>
+  </body>
+</html>

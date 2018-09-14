@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  </head>
+  <body>
+
+    <!-- .stop阻止事件冒泡修饰符 -->
+    <!-- .capture阻止事件捕获修饰符 -->
+    <!-- .prevent阻止事件默认行为修饰符 -->
+    <!-- .once事件执行一次后就被销毁 -->
+    <!-- .self判断事件源，只有当事件源是自己的时候才执行 -->
+    <!-- . -->
+    <div id="app">
+      <div @click="parent">parent
+        <div @click="child">child
+          <div @click.stop="grandson">grandson</div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+      let vm = new Vue({
+        el: '#app',
+        data: {},
+        methods: {
+          parent() {
+            console.log('parent');
+          },
+          child() {
+            console.log('child');
+          },
+          grandson() {
+            console.log('grandson');
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

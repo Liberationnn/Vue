@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+      .a {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div id="app">
+      <button v-color="flag">click me</button>
+      <div class="a" v-drag></div>
+    </div>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+      let vm = new Vue({
+        el: '#app',
+        data: {flag: 'red'},
+        directives: {
+          color(element, bindings) { //此时element指代的是页面中的button
+            element.style.color = bindings.value;
+          },
+          drag(element) {
+            element.onmousedown = function (e) {
+              let disX = e.pageX - element.offsetLeft;
+              let disY = e.pageY - element.offsetTop;
+              document.onmousemove = function (e) {
+                element.style.left = e.pageX - disX + 'px';
+                element.style.top = e.pageY - disY + 'px';
+              };
+              document.onmouseup = function (e) {
+                document.onmousemove = document.onmouseup = null;
+              };
+              e.preventDefault();
+            };
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
