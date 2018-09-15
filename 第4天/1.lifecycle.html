@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  </head>
+  <body>
+
+    <div id="app"></div>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+      // 生命周期：beforeCreate created
+      //          beforeMount mounted
+      //          beforeUpdate updated
+      //          beforeDestory destoryed
+      let vm = new Vue({ //根实例，初始化时会调用很多方法(钩子函数)
+        el: '#app',
+        data: {
+          a: 123
+        },
+        beforeCreate() {}, //此方法一般用不到
+        created() {}, //一般在此次获取ajax，初始化操作
+        beforeMount() {}, //此方法没有什么实际意义
+        mounted() {}, //真实dom渲染完了，可以操作dom了
+        beforeUpdate() {}, //一般用watch来替换掉
+        updated() {}, //一般用watch来替换掉
+        beforeDestory() {}, //可以清除定时器，或者清除事件绑定
+        destoryed() {},
+        // 如果有template属性，会用模板替换掉外部html，且app中的内容将没有任何意义
+        template: `<div>{{a}}</div>`
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  </head>
+  <body>
+
+    <div id="app">
+      <global-component></global-component>
+    </div>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+      // 全局组件 声明一次即可在任何地方使用，一般写插件的时候全局组件用的多一些
+      Vue.component('global-component', { //一个对象可以看成是一个组件
+        template: `<div>{{msg}}</div>`,
+        data() { //组件中的数据必须是函数类型，返回一个实例作为组件数据
+          return {
+            msg: '嘤嘤嘤'
+          };
+        }
+      });
+      let vm = new Vue({
+        el: '#app',
+        data: {}
+      });
+    </script>
+  </body>
+</html>

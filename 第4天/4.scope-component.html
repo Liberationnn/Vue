@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  </head>
+  <body>
+
+    <div id="app">
+      <component1></component1>
+      <component2></component2>
+    </div>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+      // 局部组件使用三部曲：1.创建这个组件 2.注册这个组件 3.使用这个组件
+      // 组件是相互独立的，不能直接跨作用域，实例也是一个组件，组件中拥有生命周期函数，组件理论上可以无限嵌套
+      // 如果组件共用了数据，会导致同时更新(独立性)
+      let component1 = {
+        template: `<div>组件1 {{msg}}</div>`,
+        data() {
+          return {msg: '嘤嘤嘤1'};
+        }
+      };
+      let component2 = {
+        template: `<div>组件2 {{msg}}</div>`,
+        data() {
+          return {msg: '嘤嘤嘤2'};
+        }
+      };
+
+      let vm = new Vue({
+        el: '#app',
+        data: {msg: '嘤嘤嘤'},
+        components: {component1, component2},
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  </head>
+  <body>
+
+    <div id="app">
+      父亲: {{money}}
+      <!-- 当前组件的属性=父亲的值，给儿子加了一个m属性，属性对应的数据是属于父亲的 -->
+      <child :m="money"></child>
+    </div>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+      let vm = new Vue({ //parent
+        el: '#app',
+        data: {money: 100},
+        components: {
+          child: {
+            // props: ['m'],
+            // 对象的形式可以进行校验，属性名不能和data中的名字相同
+            props: { //检验属性的类型，如果不带:号，得到的肯定是字符串类型
+              m: {
+                type: [String, Number, Boolean, Function, Object, Array],
+                // default: 0, //可以给m赋予默认值，如果不传，默认会调用default
+                required: true, //此属性是必须传递的，不能和default同时使用
+                validator(val) { //第一个参数是当前传递的值，返回true表示校验通过，false表示校验不通过
+                  return val > 99; //自定义校验器(用的不多)
+                }
+              }
+            },
+            template: `<div>儿子{{m}}</div>`
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
