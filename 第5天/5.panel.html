@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+  </head>
+  <body>
+
+    <div id="app">
+      <panel type="warning" @say-title="sayTitle">
+        <h3 slot="title">这是一篇vue的使用</h3>
+        <div slot="content">
+          <p>slot</p>
+          <p>child-methods</p>
+          <p>keep-alive</p>
+          <p>lifecycle</p>
+          <p>panel</p>
+        </div>
+        <div>传入的尾部注释</div>
+      </panel>
+    </div>
+
+    <template id="panel">
+      <div class="panel" :class="childType">
+        <div class="panel-heading" ref="title">
+          <slot name="title"></slot>
+        </div>
+        <div class="panel-body">
+          <slot name="content"></slot>
+        </div>
+        <div class="panel-footer">
+          <slot>匿名尾部</slot>
+          <button @click="sayTitle()">click me</button>
+        </div>
+      </div>
+    </template>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+      let panel = {
+        props: {
+          type: {type: String, default: 'default'}
+        },
+        template: '#panel',
+        computed: {
+          childType() {
+            return 'panel-' + this.type;
+          }
+        },
+        methods: {
+          sayTitle() {
+            this.$emit('say-title', this.$refs.title.innerText);
+          }
+        }
+      };
+
+      let vm = new Vue({
+        el: '#app',
+        data: {},
+        methods: {
+          sayTitle(title) {
+            alert(title);
+          }
+        },
+        components: {panel}
+      });
+    </script>
+  </body>
+</html>

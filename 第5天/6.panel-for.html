@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+  </head>
+  <body>
+
+    <div id="app"><panel :type="article.type" v-for="(article,index) in articles" @say-title="sayTitle" :key="index">
+        <h3 slot="title">{{article.title}}</h3>
+        <div slot="content">{{article.content}}</div>
+        <span v-if="article.auth">{{article.auth}}</span>
+      </panel>
+    </div>
+
+    <template id="panel">
+      <div class="panel" :class="childType">
+        <div class="panel-heading" ref="title">
+          <slot name="title"></slot>
+        </div>
+        <div class="panel-body">
+          <slot name="content"></slot>
+        </div>
+        <div class="panel-footer">
+          <slot>匿名作者</slot>
+          <button @click="sayTitle()">click me</button>
+        </div>
+      </div>
+    </template>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+      let panel = {
+        props: {
+          type: {type: String, default: 'default'}
+        },
+        template: '#panel',
+        computed: {
+          childType() {
+            return 'panel-' + this.type;
+          }
+        },
+        methods: {
+          sayTitle() {
+            this.$emit('say-title', this.$refs.title.innerText);
+          }
+        }
+      };
+
+      let vm = new Vue({
+        el: '#app',
+        data: {
+          articles: [
+            {type: 'warning', title: 'vue', content: '这是vue的文章', auth: 'vue的作者'},
+            {type: 'primary', title: 'react', content: '这是react的文章', auth: 'react的作者'},
+            {type: 'danger', title: 'angular', content: '这是angular的文章'}
+          ]
+        },
+        methods: {
+          sayTitle(title) {
+            alert(title);
+          }
+        },
+        components: {panel}
+      });
+    </script>
+  </body>
+</html>

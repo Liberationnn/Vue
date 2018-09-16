@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  </head>
+  <body>
+
+    <div id="app">
+      <brother1></brother1>
+      <brother2></brother2>
+    </div>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+      let eventBus = new Vue;
+      let brother1 = {
+        template: `<div>{{color}} <button @click="toGreen">变绿</button></div>`,
+        data() {
+          return {color: '绿色', origin: '绿色'};
+        },
+        created() {
+          eventBus.$on('toRed', (val) => this.color = val);
+        },
+        methods: {
+          toGreen() {
+            eventBus.$emit('toGreen', this.origin);
+          }
+        }
+      };
+      let brother2 = {
+        template: `<div>{{color}} <button @click="toRed">变红</button></div>`,
+        data() {
+          return {color: '红色', origin: '红色'};
+        },
+        created() {
+          eventBus.$on('toGreen', (val) => this.color = val);
+        },
+        methods: {
+          toRed() {
+            eventBus.$emit('toRed', this.origin);
+          }
+        }
+      };
+      let vm = new Vue({
+        el: '#app',
+        data: {},
+        components: {brother1, brother2}
+      });
+    </script>
+  </body>
+</html>
