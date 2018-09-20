@@ -2,16 +2,19 @@
   <div>
     <MHeader>首页</MHeader>
     <div class="content">
-      <Swiper :swiperSlides="sliders"></Swiper>
-      <div>
-        <h3>热门图书</h3>
-        <ul>
-          <li v-for="(hotBook, index) in hotBooks" :key="index">
-            <img :src="hotBook.bookCover" :alt="hotBook.bookName">
-            <h5 class="text-center">{{hotBook.bookName}}</h5>
-          </li>
-        </ul>
-      </div>
+      <Loading v-if="loading"></Loading>
+      <template v-else>
+        <Swiper :swiperSlides="sliders"></Swiper>
+        <div>
+          <h3>热门图书</h3>
+          <ul>
+            <li v-for="(hotBook, index) in hotBooks" :key="index">
+              <img :src="hotBook.bookCover" :alt="hotBook.bookName">
+              <h5 class="text-center">{{hotBook.bookName}}</h5>
+            </li>
+          </ul>
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -19,29 +22,28 @@
 <script>
   import MHeader from '../base/MHeader';
   import Swiper from '../base/Swiper';
-  import {getSliders, getHotBooks} from '../api';
+  import Loading from '../base/loading';
+  import {getAll} from '../api';
 
   export default {
     name: "Home",
     data() {
       return {
         sliders: [],
-        hotBooks: []
+        hotBooks: [],
+        loading: true
       };
     },
     created() {
-      this.doGetSliders();
-      this.doGetHotBooks();
+      this.doGetAll();
     },
     methods: {
-      async doGetSliders() {
-        this.sliders = await getSliders();
-      },
-      async doGetHotBooks() {
-        this.hotBooks = await getHotBooks();
+      async doGetAll() {
+        [this.sliders, this.hotBooks] = await getAll();
+        this.loading = false;
       }
     },
-    components: {MHeader, Swiper}
+    components: {MHeader, Swiper, Loading}
   }
 </script>
 

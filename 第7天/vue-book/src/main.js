@@ -7,11 +7,29 @@ import 'bootstrap/dist/css/bootstrap.css'
 
 Vue.config.productionTip = false;
 
-// 导入轮播图插件
+// 轮播图插件
 import VueAwesomeSwiper from 'vue-awesome-swiper';
-// 使用轮播图插件
 Vue.use(VueAwesomeSwiper);
-import 'swiper/dist/css/swiper.css'
+import 'swiper/dist/css/swiper.css';
+
+// 图片懒加载插件
+import VueLazyload from 'vue-lazyload';
+Vue.use(VueLazyload, {
+  preLoad: 1.3,
+  error: 'http://bpic.588ku.com/element_origin_min_pic/18/06/10/ae11aa680c0c9b92c69afb2cc1149453.jpg',
+  loading: 'http://img.lanrentuku.com/img/allimg/1212/5-121204193R0-50.gif',
+  attempt: 1
+});
+
+// 每次进入路由前都会执行此方法
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title;
+  // 可以设置拦截，当访问/list的时候会拦截并跳转到/add
+  // if (to.path === '/list') {
+  //   next({path: '/add'});
+  // }
+  next();
+});
 
 /* eslint-disable no-new */
 new Vue({

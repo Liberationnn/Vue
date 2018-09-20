@@ -14,6 +14,8 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(express.static('./dist'));
+
 // 获取数据方法
 let read = (url, cb) => {
   fs.readFile(path.join('./', url), 'utf-8', (err, data) => {
@@ -42,8 +44,17 @@ app.get('/hotBooks', (req, res) => { // 获取热门图书
     res.send(hotBooks);
   });
 });
-app.get('/books', (req, res) => { // 获取所有图书
+app.get('/allBooks', (req, res) => { // 获取所有图书
   read('books.json', (data) => res.send(data));
+});
+app.get('/moreBooks/:offset', (req, res) => {
+  let offset = parseInt(req.params.offset);
+  read('books.json', (books) => {
+    let result = {};
+    result.books = books.reverse().slice(0, offset);
+    result.hasMore = offset < books.length;
+    res.send(result);
+  });
 });
 app.get('/book/:id', (req, res) => { // 获取指定id的图书
   let id = parseInt(req.params.id);
@@ -85,6 +96,9 @@ app.delete('/book/:id', (req, res) => { // 删除图书
     write(books);
     res.send(books);
   });
+});
+app.get('*', (req, res) => {
+  fs.createReadStream('./dist/index.html').pipe(res);
 });
 
 app.listen(3000);

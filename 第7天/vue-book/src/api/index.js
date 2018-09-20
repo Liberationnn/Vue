@@ -13,9 +13,17 @@ export let getSliders = () => {
 export let getHotBooks = () => {
   return axios.get('/hotBooks');
 };
+// 获取轮播图和热门图书数据
+export let getAll = () => {
+  return axios.all([getSliders(), getHotBooks()]);
+};
 // 获取所有图书
-export let getBooks = () => {
-  return axios.get('/books');
+export let getAllBooks = () => {
+  return axios.get('/allBooks');
+};
+// 获取更多图书
+export let getMoreBooks = (offset) => {
+  return axios.get(`/moreBooks/${offset}`);
 };
 // 获取指定id的图书
 export let getBook = (id) => {
