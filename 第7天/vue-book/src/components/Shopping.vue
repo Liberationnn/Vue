@@ -149,7 +149,6 @@
             display: inline-block;
             width: 40px;
             height: 20px;
-            line-height: 21px;
             text-align: center;
             background-color: #f5f5f5;
           }
