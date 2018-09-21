@@ -41,3 +41,7 @@ export let updateBook = (book) => {
 export let removeBook = (id) => {
   return axios.delete(`/book/${id}`);
 };
+// 初始化数据
+export let initBooks = () => {
+  return axios.get('/initBooks');
+};

@@ -27,10 +27,12 @@ let read = (url, cb) => {
   });
 };
 // 写入数据方法
-let write = (books) => {
+let write = (books, cb) => {
   fs.writeFile('./books.json', JSON.stringify(books), (err) => {
     if (err) {
       console.log('删除失败');
+    } else {
+      cb();
     }
   });
 };
@@ -72,8 +74,9 @@ app.post('/book', (req, res) => { // 添加图书
   read('books.json', (books) => {
     book.id = books.length + 1;
     books.push(book);
-    write(books);
-    res.send(books);
+    write(books, () => {
+      res.send(books);
+    });
   });
 });
 app.put('/book', (req, res) => { // 修改图书
@@ -82,8 +85,16 @@ app.put('/book', (req, res) => { // 修改图书
     books = books.map((item) => {
       return item.id === book.id ? book : item;
     });
-    write(books);
-    res.send(books);
+    write(books, () => {
+      res.send(books);
+    });
+  });
+});
+app.get('/initBooks', (req, res) => {
+  read('books1.json', (books) => {
+    write(books, () => {
+      res.send(books.reverse().slice(0, 6));
+    });
   });
 });
 app.delete('/book/:id', (req, res) => { // 删除图书
@@ -93,8 +104,9 @@ app.delete('/book/:id', (req, res) => { // 删除图书
       return item.id !== id;
     });
     books.forEach((item, index) => item.id = index + 1);
-    write(books);
-    res.send(books);
+    write(books, () => {
+      res.send(books);
+    });
   });
 });
 app.get('*', (req, res) => {

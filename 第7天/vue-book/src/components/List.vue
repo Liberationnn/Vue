@@ -2,15 +2,19 @@
   <div>
     <MHeader>列表页</MHeader>
     <div class="content" ref="content" @scroll="loadMore">
-      <ul>
+      <div class="text-center tip" v-if="!books.length">下拉获取数据</div>
+      <ul v-else>
         <router-link :to="{name:'detail',params:{id:book.id}}" class="list-group-item clearfix" tag="li"
-                     v-for="(book, index) in books" :key="index">
+                     v-for="(book, index) in books" :key="book.bookCover+index">
           <img v-lazy="book.bookCover" alt="">
-          <div>
+          <div class="wrap">
             <h4>{{book.bookName}}</h4>
             <p>{{book.bookInfo}}</p>
             <span>￥ {{book.bookPrice}}</span>
-            <button class="btn btn-danger btn-sm" @click.stop="doRemoveBook(book.id)">删除</button>
+            <div>
+              <button class="btn btn-danger btn-sm" @click.stop="addCar(book)">加入购物车</button>
+              <button class="btn btn-danger btn-sm" @click.stop="doRemoveBook(book)">删除</button>
+            </div>
           </div>
         </router-link>
       </ul>
@@ -20,7 +24,8 @@
 
 <script>
   import MHeader from '../base/MHeader';
-  import {getAllBooks, getMoreBooks, getBook, addBook, updateBook, removeBook} from "../api";
+  import {getAllBooks, getMoreBooks, getBook, addBook, updateBook, removeBook, initBooks} from "../api";
+  import * as Types from '../store/mutations-types';
 
   export default {
     name: "List",
@@ -30,7 +35,8 @@
         book: {},
         hasMore: true,
         isLoading: false,
-        timer: null
+        timer: null,
+        isRemoving: false,
       };
     },
     created() {
@@ -54,6 +60,11 @@
             content.ontouchend = (e) => {
               if (offset >= 50) {
                 this.doGetBooks();
+                setTimeout(() => {
+                  if (this.books.length === 0) {
+                    this.doInitBooks();
+                  }
+                }, 200);
               }
               let timer = setInterval(() => {
                 if (parseInt(content.style.top) <= startTop) {
@@ -74,6 +85,7 @@
       },
       async doGetBooks() { // 进入list页面时，显示6条数据
         let {books, hasMore} = await getMoreBooks(6);
+        this.books = []; // 先清空books再赋值，以触发懒加载效果
         this.books = books;
         this.hasMore = hasMore;
       },
@@ -97,9 +109,18 @@
         await updateBook(book);
         this.doGetBooks();
       },
-      async doRemoveBook(id) {
-        await removeBook(id);
-        this.doGetBooks();
+      async doRemoveBook(book) {
+        if (!this.isRemoving) {
+          this.books = this.books.filter((item) => item.id !== book.id);
+          this.isRemoving = true;
+          let temp = await removeBook(book.id);
+          this.books = temp.reverse().slice(0, this.books.length);
+          this.$store.commit(Types.REMOVE, book);
+          this.isRemoving = false;
+        }
+      },
+      async doInitBooks() {
+        this.books = await initBooks();
       },
       loadMore() {
         clearTimeout(this.timer);
@@ -110,12 +131,19 @@
           }
         }, 10);
       },
+      addCar(book) {
+        this.$store.commit(Types.ADD, book);
+      },
     },
     components: {MHeader}
   }
 </script>
 
 <style scoped lang="less">
+  .tip {
+    margin-top: 14px;
+    font-size: 16px;
+  }
   ul {
     margin-bottom: 0;
     li {
@@ -125,15 +153,13 @@
       img {
         width: 50%;
       }
-      div {
+      .wrap {
         position: relative;
-        margin-top: 10px;
         width: 50%;
-        button {
+        div {
           position: absolute;
           bottom: 4px;
           right: 0;
-          z-index: 2;
         }
       }
     }

@@ -1,9 +1,10 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue'
-import App from './App'
-import router from './router'
-import 'bootstrap/dist/css/bootstrap.css'
+import Vue from 'vue';
+import App from './App';
+import store from './store';
+import router from './router';
+import 'bootstrap/dist/css/bootstrap.css';
 
 Vue.config.productionTip = false;
 
@@ -12,7 +13,7 @@ import VueAwesomeSwiper from 'vue-awesome-swiper';
 Vue.use(VueAwesomeSwiper);
 import 'swiper/dist/css/swiper.css';
 
-// 图片懒加载插件
+// 图片懒加载插件 (在列表页删除图书时会造成图片显示错误的问题，将key值设为图片地址可以解决此问题)
 import VueLazyload from 'vue-lazyload';
 Vue.use(VueLazyload, {
   preLoad: 1.3,
@@ -34,6 +35,7 @@ router.beforeEach((to, from, next) => {
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  store,
   router,
   components: {App},
   template: '<App/>'

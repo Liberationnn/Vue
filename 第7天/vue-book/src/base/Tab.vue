@@ -12,9 +12,9 @@
       <i class="iconfont icon-tianjia"></i>
       <span>添加</span>
     </router-link>
-    <router-link to="/collect">
-      <i class="iconfont icon-shoucang"></i>
-      <span>收藏</span>
+    <router-link to="/shopping">
+      <i class="iconfont icon-gouwuche"></i>
+      <span>购物车</span>
     </router-link>
   </div>
 </template>
